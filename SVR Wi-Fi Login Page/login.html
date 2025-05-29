@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wi-Fi Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- CHAP Login Handling -->
+    <!-- $(if chap-id) -->
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+
+    <script src="/md5.js"></script>
+    <script>
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+    </script>
+    <!-- $(endif) -->
+
+    <div class="main">
+        <div class="wrap animated fadeIn" style="background-color: rgba(255, 255, 255, 0.55); border: 1px solid #ccc; border-radius: 10px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+
+            <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                <input type="hidden" name="dst" value="$(link-orig)" />
+                <input type="hidden" name="popup" value="true" />
+
+                <!-- Hotel Logo -->
+                <img src="img/hotel-logo.png" alt="Hotel Logo" class="logo" />
+
+
+<div class="services" style="color: Black; margin-top: 20px; font-size: 15px; line-height: 1.6;">
+    <strong>Dear Guest, <br>Welcome to <span style="color: #FFD700;"> Shivalik Valley Resorts</span><br>Please log using coupon to use the internet.</strong><br/><br>
+      
+</div>
+
+
+
+                <p class="info $(if error)alert$(endif)" style="color: Black;>
+                    $(if error == "")Please log in to use the internet;
+                    $(if trial == 'yes')<br />Free trial available, <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">click here</a>.$(endif)
+                    $(endif)
+
+                    $(if error)$(error)$(endif)
+                </p>
+
+                <label>
+                    <img class="ico" src="img/user.svg" alt="#" />
+                    <input name="username" type="text" value="$(username)" placeholder="Username" />
+                </label>
+
+                <label>
+                    <img class="ico" src="img/password.svg" alt="#" />
+                    <input name="password" type="password" placeholder="Password" />
+                </label>
+
+                <input type="submit" value="Connect" />
+            </form>
+<div class="services" style="color: Black; margin-top: 20px; font-size: 15px; line-height: 1.6;">
+    <b>DISCOVER OUR SERVICES:</b> 
+    <ul style="padding-left: 20px; margin-top: 10px;">
+        <li><strong>Banqueting for Weddings & Events</strong></li>
+        <li><strong>Comfortable Rooms</strong></li>
+        <li><strong>Food Services</strong></li>
+        <li><strong>Free Wi-Fi Network</strong></li>
+<li><strong>Visit our Website</strong>: <a href="https://www.shivalikvalleyresorts.com" target="_blank" style="color: #ADD8E6;">shivalikvalleyresorts.com</a></li>
+       
+    </ul>
+</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+
+</html>
